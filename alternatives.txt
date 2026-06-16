@@ -6,8 +6,9 @@
 ⭐ 围棋 · OGS 做几道死活题 | open "https://online-go.com/puzzles"
 ⭐ 读书 · 翻开一本 epub，读一章就好 | open -a "Books"
 ⭐ 读书 · 翻开一本 epub，读一章就好 | open -a "Books"
-⭐ tech blog · 读一篇收藏的好文(具体文章，别刷首页) | open "REPLACE_WITH_YOUR_BLOG_OR_READING_LIST"
-⭐ tech blog · 读一篇收藏的好文(具体文章，别刷首页) | open "REPLACE_WITH_YOUR_BLOG_OR_READING_LIST"
+⭐ tech blog · Eugene Wei(社交/增长本质) | open "https://www.eugenewei.com"
+⭐ tech blog · Paul Graham 随笔 | open "https://paulgraham.com/articles.html"
+⭐ tech blog · 我的精选清单 | open "https://github.com/max-presence/focus-guard/blob/main/reading-list.md"
 ⭐ 书法 · 放下手机，铺纸写 20 分钟 |
 ⭐ 书法 · 放下手机，铺纸写 20 分钟 |
 ⭐ 三国剪辑 · 看一段就停(我的收藏夹) | open "REPLACE_WITH_YOUR_PLAYLIST_URL"

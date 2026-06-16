@@ -42,22 +42,34 @@ focus-pick -l    # 列出全部
 - **待你填**：把"三国剪辑"那行的 `REPLACE_WITH_YOUR_PLAYLIST_URL` 换成你自己的收藏夹/playlist，避免点进算法推荐流。
 - 建议绑个全局快捷键（Raycast/Hammerspoon Script Command → `focus-pick`），焦躁时一键唤起。
 
-## C. 手机黑白强制（vivo / Android，需 adb）
+## C. 手机黑白强制（vivo / Android）
+
+### 推荐：APK（日常不用 adb）
+
+见 `android-app/`（完整 Android Studio 工程）。装好后**用电脑连一次**授权，之后这个 app 自己常驻：被关自动拉回 + 彩色 N 分钟自动收回 + 下拉磁贴 + 开机自启。
 
 ```bash
-brew install android-platform-tools   # 先装 adb（当前机器还没有）
-# 手机开"USB/无线调试"，adb devices 能看到设备后：
+adb install android-app/app/build/outputs/apk/debug/app-debug.apk
+adb shell pm grant app.focusguard android.permission.WRITE_SECURE_SETTINGS   # 仅此一次
+```
+
+详见 `android-app/README.md`（含构建、vivo 后台保活/键值实测注意）。
+
+### 备选：ADB 脚本（每次要连 adb，适合先试效果）
+
+```bash
+brew install android-platform-tools
 bash android/grayscale-on.sh          # 开灰度
 bash android/grayscale-off.sh         # 恢复彩色
 bash android/color-break.sh 10        # 缝隙：彩色 10 分钟后自动切回黑白
 ```
 
-- 底层用 `accessibility_display_daltonizer`（=0 多为全灰单色）。**vivo OriginOS 键名/取值可能不同，要真机实测**；不行就改用系统自带「灰度/单色」+ 数字健康，或后续做 APK 自动巡检。
-- `color-break.sh` 期间手机要全程连着 adb，否则倒计时结束切不回。
+- 底层都用 `accessibility_display_daltonizer`（=0 多为全灰单色）。**vivo OriginOS 键名/取值可能不同，要真机实测**。
+- `color-break.sh` 期间手机要全程连着 adb，否则切不回——这正是 APK 方案要解决的痛点。
 
 ## 路线 / 待办
 
 - [ ] B: 填三国剪辑 playlist URL + 绑 Raycast 快捷键
 - [ ] C: 真机确认 vivo daltonizer 键名（型号/系统版本？）
-- [ ] C(可选): 写 APK 做"自动巡检灰度 + 倒计时缝隙"，免每次连电脑
+- [x] C: APK「自动巡检灰度 + 倒计时缝隙」已搭骨架（`android-app/`），待真机编译实测
 - [ ] A(可选): 评估是否换 SelfControl（无法中途解除）
