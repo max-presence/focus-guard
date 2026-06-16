@@ -21,5 +21,16 @@ zhimg.com
 # B 站
 bilibili.com
 
+# 信息流 feed —— 防止读 tech blog 时掉进刷流
+# 思路：读「具体文章」OK，刷「首页/时间线」不 OK。下面挡的是 feed 入口。
+x.com
+twitter.com
+reddit.com
+news.ycombinator.com
+lobste.rs
+# 注意：medium.com 没挡——好文章常在它上面，挡了就读不了具体文章
+
 # 可选：想更狠就取消注释
 #weibo.com
+#instagram.com
+#facebook.com
