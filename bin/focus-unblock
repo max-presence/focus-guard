@@ -1,0 +1,31 @@
+#!/bin/bash
+# focus-unblock — 解除屏蔽。默认有 60s 冷静等待（摩擦），--now 跳过。
+# 用法: sudo focus-unblock [--now]
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+HOSTS="/etc/hosts"
+BEGIN="# >>> focus-guard >>>"
+END="# <<< focus-guard <<<"
+WAIT=60
+
+if [[ $EUID -ne 0 ]]; then
+  echo "需要 sudo:  sudo $0" >&2
+  exit 1
+fi
+
+if ! grep -qF "$BEGIN" "$HOSTS"; then
+  echo "当前没有屏蔽，无需解除。"
+  exit 0
+fi
+
+if [[ "${1:-}" != "--now" ]]; then
+  echo "你正在解除专注屏蔽。先想 ${WAIT}s——真的现在要刷吗？(Ctrl-C 可取消)"
+  for ((i=WAIT;i>0;i--)); do printf "\r  %2ds..." "$i"; sleep 1; done
+  printf "\r          \n"
+fi
+
+"$ROOT/bin/_strip_block" "$HOSTS" "$BEGIN" "$END"
+dscacheutil -flushcache 2>/dev/null || true
+killall -HUP mDNSResponder 2>/dev/null || true
+echo "已解除屏蔽。"

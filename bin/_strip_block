@@ -1,0 +1,13 @@
+#!/bin/bash
+# _strip_block FILE BEGIN END — 从 FILE 中删掉 BEGIN..END 之间的区块（含两行标记）
+set -euo pipefail
+FILE="$1"; BEGIN="$2"; END="$3"
+[[ -f "$FILE" ]] || exit 0
+tmp="$(mktemp)"
+awk -v b="$BEGIN" -v e="$END" '
+  index($0,b){skip=1}
+  !skip{print}
+  index($0,e){skip=0}
+' "$FILE" > "$tmp"
+cat "$tmp" > "$FILE"
+rm -f "$tmp"

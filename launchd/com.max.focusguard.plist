@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  工作日(周一~周五) 09:00 自动开启屏蔽。
+  注意: 故意不自动解除——解除要你手动 sudo focus-unblock(带 60s 冷静)，保留摩擦。
+  安装:
+    sudo cp launchd/com.max.focusguard.plist /Library/LaunchDaemons/
+    # 把下面 ProgramArguments 里的路径改成你的真实路径
+    sudo launchctl load -w /Library/LaunchDaemons/com.max.focusguard.plist
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.max.focusguard</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/lingzhou/Documents/Project/focus-guard/bin/focus-block</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Weekday</key><integer>1</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Weekday</key><integer>2</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Weekday</key><integer>3</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Weekday</key><integer>4</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Weekday</key><integer>5</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+  </array>
+  <key>StandardErrorPath</key>
+  <string>/tmp/focusguard.err</string>
+  <key>StandardOutPath</key>
+  <string>/tmp/focusguard.out</string>
+</dict>
+</plist>

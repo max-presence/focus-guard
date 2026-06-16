@@ -1,0 +1,35 @@
+#!/bin/bash
+# focus-pick — mind racing 时随机给一个"会结束/产出型"的出口，代替顺手刷 feed。
+# 用法: focus-pick        随机挑一个并询问是否打开
+#       focus-pick -l     列出全部
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+LIST="$ROOT/alternatives.txt"
+[[ -f "$LIST" ]] || { echo "找不到 $LIST" >&2; exit 1; }
+
+# 读入有效行（兼容 macOS 自带 bash 3.2，不用 mapfile）
+lines=()
+while IFS= read -r l; do
+  lines+=("$l")
+done < <(grep -v '^[[:space:]]*#' "$LIST" | grep -v '^[[:space:]]*$')
+[[ ${#lines[@]} -gt 0 ]] || { echo "清单为空，去 $LIST 加几条。" >&2; exit 1; }
+
+if [[ "${1:-}" == "-l" ]]; then
+  i=1; for l in "${lines[@]}"; do echo "$i. ${l%%|*}"; ((i++)); done; exit 0
+fi
+
+pick="${lines[$((RANDOM % ${#lines[@]}))]}"
+label="$(echo "${pick%%|*}" | sed 's/[[:space:]]*$//')"
+cmd="$(echo "${pick#*|}" | sed 's/^[[:space:]]*//')"
+
+echo "👉 $label"
+if [[ -z "$cmd" ]]; then
+  echo "   （线下动作，放下电脑去做。）"
+  exit 0
+fi
+read -r -p "   打开它吗？[Y/n] " ans
+case "${ans:-Y}" in
+  n|N) echo "   那就先这样。" ;;
+  *)   eval "$cmd" ;;
+esac

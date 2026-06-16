@@ -1,0 +1,23 @@
+# Focus Guard 屏蔽域名清单（每行一个根域名，# 开头为注释）
+# 脚本会自动加上 www. 和 m. 变体。改完重新跑 focus-block 生效。
+
+# YouTube / 视频
+youtube.com
+youtu.be
+
+# 短视频
+douyin.com
+iesdouyin.com
+tiktok.com
+
+# 小红书
+xiaohongshu.com
+xhslink.com
+
+# 知乎
+zhihu.com
+zhimg.com
+
+# 可选：想更狠就取消注释
+#weibo.com
+#bilibili.com

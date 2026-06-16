@@ -1,0 +1,14 @@
+#!/bin/bash
+# focus-status — 显示当前是否在屏蔽中（只读，不需 sudo）
+set -euo pipefail
+HOSTS="/etc/hosts"
+BEGIN="# >>> focus-guard >>>"
+END="# <<< focus-guard <<<"
+
+if grep -qF "$BEGIN" "$HOSTS"; then
+  ts="$(grep -F "$BEGIN" "$HOSTS" | sed 's/.*# //')"
+  n="$(awk -v b="$BEGIN" -v e="$END" 'index($0,b){s=1;next} index($0,e){s=0} s&&/^0\.0\.0\.0/{c++} END{print c+0}' "$HOSTS")"
+  echo "🟢 专注屏蔽中（自 ${ts}），$n 条规则。"
+else
+  echo "⚪️ 未屏蔽。"
+fi

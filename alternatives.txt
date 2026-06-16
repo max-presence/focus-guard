@@ -1,0 +1,14 @@
+# 焦躁急救出口清单：  标签 | 命令（留空则只提醒）
+# focus-pick 会随机挑一个。⭐ 是你的偏好，权重更高（多列几次即可加权）。
+
+⭐ 围棋 · 死活题一道 | open "https://www.101weiqi.com/q/"
+⭐ 围棋 · 来一局(9/13/19 路) | open "https://online-go.com/play"
+⭐ 围棋 · 来一局(9/13/19 路) | open "https://online-go.com/play"
+⭐ 书法 · 放下手机，铺纸写 20 分钟 |
+⭐ 书法 · 放下手机，铺纸写 20 分钟 |
+⭐ 三国剪辑 · 看一段就停(我的收藏夹) | open "REPLACE_WITH_YOUR_PLAYLIST_URL"
+速记本 · 把脑子里转的写下来 | open -a "Notes"
+Read-later · 读一篇存好的长文 | open "https://readwise.io/read"
+Anki · 刷一组卡 | open -a "Anki"
+音乐 · 换个情绪 | open -a "Music"
+起身走 · 走 10 分钟 + 语音备忘 |

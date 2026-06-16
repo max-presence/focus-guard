@@ -1,0 +1,41 @@
+#!/bin/bash
+# focus-block — 把 blocklist.txt 里的域名 null-route 到 0.0.0.0（写入 /etc/hosts）
+# 用法: sudo focus-block
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BLOCKLIST="$ROOT/blocklist.txt"
+HOSTS="/etc/hosts"
+BEGIN="# >>> focus-guard >>>"
+END="# <<< focus-guard <<<"
+
+if [[ $EUID -ne 0 ]]; then
+  echo "需要 sudo 修改 /etc/hosts:  sudo $0" >&2
+  exit 1
+fi
+
+[[ -f "$BLOCKLIST" ]] || { echo "找不到 $BLOCKLIST" >&2; exit 1; }
+
+# 首次备份
+[[ -f "${HOSTS}.focusguard-bak" ]] || cp "$HOSTS" "${HOSTS}.focusguard-bak"
+
+# 先移除旧的 focus-guard 区块（幂等）
+"$ROOT/bin/_strip_block" "$HOSTS" "$BEGIN" "$END"
+
+# 生成新区块
+{
+  echo "$BEGIN  # $(date '+%Y-%m-%d %H:%M')"
+  while IFS= read -r line; do
+    line="${line%%#*}"; line="$(echo "$line" | xargs)"
+    [[ -z "$line" ]] && continue
+    printf '0.0.0.0 %s\n0.0.0.0 www.%s\n0.0.0.0 m.%s\n' "$line" "$line" "$line"
+  done < "$BLOCKLIST"
+  echo "$END"
+} >> "$HOSTS"
+
+# 刷新 DNS 缓存
+dscacheutil -flushcache 2>/dev/null || true
+killall -HUP mDNSResponder 2>/dev/null || true
+
+echo "已屏蔽。受影响域名见 $BLOCKLIST"
+echo "解除请跑:  sudo focus-unblock   （有 60s 冷静等待）"
