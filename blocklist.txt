@@ -18,6 +18,8 @@ xhslink.com
 zhihu.com
 zhimg.com
 
+# B 站
+bilibili.com
+
 # 可选：想更狠就取消注释
 #weibo.com
-#bilibili.com
