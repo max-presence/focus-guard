@@ -36,11 +36,12 @@ sudo focus-unblock --now   # 跳过等待
 ```bash
 focus-pick       # 随机给一个会结束/产出型的出口（围棋/书法/三国剪辑/速记…）
 focus-pick -l    # 列出全部
+adhd             # focus-pick 的短别名，适合绑快捷键
 ```
 
 - 编辑 `alternatives.txt` 增删条目（`标签 | 命令`，命令留空=线下动作）。⭐ 是你的偏好，多列几行即加权。
 - **待你填**：把"三国剪辑"那行的 `REPLACE_WITH_YOUR_PLAYLIST_URL` 换成你自己的收藏夹/playlist，避免点进算法推荐流。
-- 建议绑个全局快捷键（Raycast/Hammerspoon Script Command → `focus-pick`），焦躁时一键唤起。
+- 建议绑个全局快捷键（Raycast/Hammerspoon Script Command → `adhd`），焦躁时一键唤起。
 
 ## C. 手机黑白强制（vivo / Android）
 

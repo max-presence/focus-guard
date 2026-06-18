@@ -42,4 +42,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="停止守护" />
+
+    <Button
+        android:id="@+id/btnKeepAlive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打开保活设置" />
 </LinearLayout>
