@@ -20,8 +20,16 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnStart).setOnClickListener {
             startForegroundService(svc(GuardService.ACTION_START)); refresh()
         }
-        findViewById<Button>(R.id.btnBreak).setOnClickListener {
-            startForegroundService(svc(GuardService.ACTION_BREAK).putExtra(GuardService.EXTRA_BREAK_MIN, 10))
+        findViewById<Button>(R.id.btnBreak30s).setOnClickListener {
+            startForegroundService(breakSvc(30_000L))
+            refresh()
+        }
+        findViewById<Button>(R.id.btnBreak10m).setOnClickListener {
+            startForegroundService(breakSvc(10 * 60_000L))
+            refresh()
+        }
+        findViewById<Button>(R.id.btnBreak1h).setOnClickListener {
+            startForegroundService(breakSvc(60 * 60_000L))
             refresh()
         }
         findViewById<Button>(R.id.btnStop).setOnClickListener {
@@ -30,6 +38,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun svc(action: String) = Intent(this, GuardService::class.java).setAction(action)
+
+    private fun breakSvc(ms: Long) =
+        svc(GuardService.ACTION_BREAK).putExtra(GuardService.EXTRA_BREAK_MS, ms)
 
     private fun refresh() {
         val tv = findViewById<TextView>(R.id.status)

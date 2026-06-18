@@ -20,10 +20,22 @@
         android:text="开启黑白守护" />
 
     <Button
-        android:id="@+id/btnBreak"
+        android:id="@+id/btnBreak30s"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="彩色 10 分钟（自动收回）" />
+        android:text="彩色 30 秒" />
+
+    <Button
+        android:id="@+id/btnBreak10m"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="彩色 10 分钟" />
+
+    <Button
+        android:id="@+id/btnBreak1h"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="彩色 1 小时" />
 
     <Button
         android:id="@+id/btnStop"

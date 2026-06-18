@@ -14,7 +14,7 @@
   <string>com.max.focusguard</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/Users/lingzhou/Documents/Project/focus-guard/bin/focus-block</string>
+    <string>/Users/maxzhou/Dev/focus-guard/bin/focus-block</string>
   </array>
   <key>StartCalendarInterval</key>
   <array>
