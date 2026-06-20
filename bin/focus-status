@@ -7,7 +7,7 @@ END="# <<< focus-guard <<<"
 
 if grep -qF "$BEGIN" "$HOSTS"; then
   ts="$(grep -F "$BEGIN" "$HOSTS" | sed 's/.*# //')"
-  n="$(awk -v b="$BEGIN" -v e="$END" 'index($0,b){s=1;next} index($0,e){s=0} s&&($1=="0.0.0.0" || $1=="::1"){c++} END{print c+0}' "$HOSTS")"
+  n="$(awk -v b="$BEGIN" -v e="$END" 'index($0,b){s=1;next} index($0,e){s=0} s&&/^0\.0\.0\.0/{c++} END{print c+0}' "$HOSTS")"
   echo "🟢 专注屏蔽中（自 ${ts}），$n 条规则。"
 else
   echo "⚪️ 未屏蔽。"

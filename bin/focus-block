@@ -28,9 +28,7 @@ fi
   while IFS= read -r line; do
     line="${line%%#*}"; line="$(echo "$line" | xargs)"
     [[ -z "$line" ]] && continue
-    for host in "$line" "www.$line" "m.$line"; do
-      printf '0.0.0.0 %s\n::1 %s\n' "$host" "$host"
-    done
+    printf '0.0.0.0 %s\n0.0.0.0 www.%s\n0.0.0.0 m.%s\n' "$line" "$line" "$line"
   done < "$BLOCKLIST"
   echo "$END"
 } >> "$HOSTS"
