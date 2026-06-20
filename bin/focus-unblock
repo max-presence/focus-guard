@@ -34,11 +34,23 @@ killall -HUP mDNSResponder 2>/dev/null || true
 
 token="$(date '+%s')-$$"
 printf '%s\n' "$token" > "$REBLOCK_TOKEN"
+{
+  printf '[%s] scheduled reblock in %ss token=%s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$REBLOCK_AFTER" "$token"
+} >>"$REBLOCK_LOG"
 nohup bash -c '
   set -euo pipefail
   sleep "$1"
-  [[ -f "$3" ]] || exit 0
-  [[ "$(cat "$3")" == "$4" ]] || exit 0
+  now="$(date "+%Y-%m-%d %H:%M:%S")"
+  if [[ ! -f "$3" ]]; then
+    printf "[%s] skip reblock: token file missing\n" "$now"
+    exit 0
+  fi
+  current="$(cat "$3")"
+  if [[ "$current" != "$4" ]]; then
+    printf "[%s] skip reblock: stale token=%s current=%s\n" "$now" "$4" "$current"
+    exit 0
+  fi
+  printf "[%s] running focus-block token=%s\n" "$now" "$4"
   "$2/bin/focus-block"
 ' focusguard-reblock "$REBLOCK_AFTER" "$ROOT" "$REBLOCK_TOKEN" "$token" >>"$REBLOCK_LOG" 2>&1 &
 
