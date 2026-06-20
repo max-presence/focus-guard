@@ -19,7 +19,7 @@ source ~/.zshrc
 ```bash
 sudo focus-block      # 开启屏蔽（读 blocklist.txt 写入 /etc/hosts）
 focus-status          # 看当前状态（只读，免 sudo）
-sudo focus-unblock    # 解除（有 60s 冷静等待）
+sudo focus-unblock    # 临时解除 30 分钟（有 60s 冷静等待，到点自动恢复）
 sudo focus-unblock --now   # 跳过等待
 ```
 
@@ -29,7 +29,7 @@ sudo focus-unblock --now   # 跳过等待
 
 ### 自动按时段开启（可选）
 
-`launchd/com.max.focusguard.plist` = 工作日 09:00 自动开启屏蔽（故意不自动解除，保留摩擦）。安装见该文件头部注释。
+`launchd/com.max.focusguard.plist` = 工作日 09:00 自动开启屏蔽。手动 `sudo focus-unblock` 只会临时解除 30 分钟，到点自动恢复。安装见该文件头部注释。
 
 ## B. 焦躁急救出口
 

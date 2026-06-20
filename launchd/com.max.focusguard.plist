@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   工作日(周一~周五) 09:00 自动开启屏蔽。
-  注意: 故意不自动解除——解除要你手动 sudo focus-unblock(带 60s 冷静)，保留摩擦。
+  手动 sudo focus-unblock 会临时解除 30 分钟，到点自动重新屏蔽。
   安装:
     sudo cp launchd/com.max.focusguard.plist /Library/LaunchDaemons/
     # 把下面 ProgramArguments 里的路径改成你的真实路径

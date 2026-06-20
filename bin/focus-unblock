@@ -1,5 +1,5 @@
 #!/bin/bash
-# focus-unblock — 解除屏蔽。默认有 60s 冷静等待（摩擦），--now 跳过。
+# focus-unblock — 临时解除屏蔽。默认有 60s 冷静等待（摩擦），--now 跳过。
 # 用法: sudo focus-unblock [--now]
 set -euo pipefail
 
@@ -8,6 +8,9 @@ HOSTS="/etc/hosts"
 BEGIN="# >>> focus-guard >>>"
 END="# <<< focus-guard <<<"
 WAIT=60
+REBLOCK_AFTER=1800
+REBLOCK_LOG="/tmp/focusguard-reblock.log"
+REBLOCK_TOKEN="/tmp/focusguard-reblock.token"
 
 if [[ $EUID -ne 0 ]]; then
   echo "需要 sudo:  sudo $0" >&2
@@ -28,4 +31,16 @@ fi
 "$ROOT/bin/_strip_block" "$HOSTS" "$BEGIN" "$END"
 dscacheutil -flushcache 2>/dev/null || true
 killall -HUP mDNSResponder 2>/dev/null || true
-echo "已解除屏蔽。"
+
+token="$(date '+%s')-$$"
+printf '%s\n' "$token" > "$REBLOCK_TOKEN"
+nohup bash -c '
+  set -euo pipefail
+  sleep "$1"
+  [[ -f "$3" ]] || exit 0
+  [[ "$(cat "$3")" == "$4" ]] || exit 0
+  "$2/bin/focus-block"
+' focusguard-reblock "$REBLOCK_AFTER" "$ROOT" "$REBLOCK_TOKEN" "$token" >>"$REBLOCK_LOG" 2>&1 &
+
+echo "已解除屏蔽。30 分钟后会自动重新屏蔽。"
+echo "自动反弹日志: $REBLOCK_LOG"

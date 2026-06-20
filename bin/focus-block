@@ -38,4 +38,4 @@ dscacheutil -flushcache 2>/dev/null || true
 killall -HUP mDNSResponder 2>/dev/null || true
 
 echo "已屏蔽。受影响域名见 $BLOCKLIST"
-echo "解除请跑:  sudo focus-unblock   （有 60s 冷静等待）"
+echo "临时解除请跑:  sudo focus-unblock   （有 60s 冷静等待，30 分钟后自动恢复）"
